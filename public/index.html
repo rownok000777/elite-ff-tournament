@@ -9,18 +9,20 @@
 <body>
     <header>
         <h1>ELITE FF TOURNAMENT BD</h1>
-        <div class="card"><p id="notice">Connecting...</p></div>
+        <div class="card"><p id="notice">Connecting to server...</p></div>
     </header>
 
     <main>
         <div class="card">
-            <h2>Tournament Info</h2>
-            <p>Prize Pool: <span id="totalPrize">0</span></p>
-            <p>Entry Fee: <span id="entryFee">0</span></p>
+            <h2>Tournament Details</h2>
+            <div class="info-grid">
+                <p>Total Prize: <b id="totalPrize">0</b></p>
+                <p>Entry Fee: <b id="entryFee">0</b></p>
+            </div>
             <hr>
             <p>1st: <span id="p1">0</span> | 2nd: <span id="p2">0</span> | 3rd: <span id="p3">0</span></p>
         </div>
-        <button onclick="location.href='/register'" class="btn">Register Now</button>
+        <button onclick="window.location.href='/register'" class="btn">Register Now</button>
     </main>
 
     <script type="module">
@@ -42,12 +44,12 @@
         onSnapshot(doc(db, "tournament", "settings"), (doc) => {
             if (doc.exists()) {
                 const data = doc.data();
-                document.getElementById('notice').innerText = data.notice;
-                document.getElementById('totalPrize').innerText = data.totalPrize;
-                document.getElementById('entryFee').innerText = data.entryFee;
-                document.getElementById('p1').innerText = data.p1;
-                document.getElementById('p2').innerText = data.p2;
-                document.getElementById('p3').innerText = data.p3;
+                document.getElementById('notice').innerText = data.notice || "No Notice";
+                document.getElementById('totalPrize').innerText = data.totalPrize || "0";
+                document.getElementById('entryFee').innerText = data.entryFee || "0";
+                document.getElementById('p1').innerText = data.p1 || "0";
+                document.getElementById('p2').innerText = data.p2 || "0";
+                document.getElementById('p3').innerText = data.p3 || "0";
             }
         });
     </script>
