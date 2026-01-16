@@ -7,29 +7,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <header>
         <h1>ELITE FF TOURNAMENT BD</h1>
-        <div class="notice-board">
-            <p id="notice">Connecting to server...</p>
-        </div>
+        <div class="card"><p id="notice">Connecting...</p></div>
     </header>
 
     <main>
         <div class="card">
-            <h2>Tournament Details</h2>
-            <p>Total Prize: <span id="total-prize">0</span></p>
-            <p>Entry Fee: <span id="entry-fee">0</span></p>
+            <h2>Tournament Info</h2>
+            <p>Prize Pool: <span id="totalPrize">0</span></p>
+            <p>Entry Fee: <span id="entryFee">0</span></p>
             <hr>
-            <p>1st Prize: <span id="p1">0</span></p>
-            <p>2nd Prize: <span id="p2">0</span></p>
-            <p>3rd Prize: <span id="p3">0</span></p>
+            <p>1st: <span id="p1">0</span> | 2nd: <span id="p2">0</span> | 3rd: <span id="p3">0</span></p>
         </div>
-
-        <div class="card">
-            <h2>Registration</h2>
-            <button onclick="alert('Registration form coming soon!')">Register Now</button>
-        </div>
+        <button onclick="location.href='/register'" class="btn">Register Now</button>
     </main>
 
     <script type="module">
@@ -48,19 +39,15 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        const tournamentDoc = doc(db, "tournament", "settings");
-
-        onSnapshot(tournamentDoc, (doc) => {
+        onSnapshot(doc(db, "tournament", "settings"), (doc) => {
             if (doc.exists()) {
                 const data = doc.data();
-                document.getElementById('notice').innerText = data.notice || "No Notice";
-                document.getElementById('total-prize').innerText = data.totalPrize || "0";
-                document.getElementById('entry-fee').innerText = data.entryFee || "0";
-                document.getElementById('p1').innerText = data.p1 || "0";
-                document.getElementById('p2').innerText = data.p2 || "0";
-                document.getElementById('p3').innerText = data.p3 || "0";
-            } else {
-                document.getElementById('notice').innerText = "Create a document in Firestore: tournament/settings";
+                document.getElementById('notice').innerText = data.notice;
+                document.getElementById('totalPrize').innerText = data.totalPrize;
+                document.getElementById('entryFee').innerText = data.entryFee;
+                document.getElementById('p1').innerText = data.p1;
+                document.getElementById('p2').innerText = data.p2;
+                document.getElementById('p3').innerText = data.p3;
             }
         });
     </script>
