@@ -5,10 +5,14 @@ const path = require('path');
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-  res.send("ELITE FF TOURNAMENT BD Server is Ready!");
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/register', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
