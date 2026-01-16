@@ -7,21 +7,62 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <header>
         <h1>ELITE FF TOURNAMENT BD</h1>
-        <p id="notice">Loading latest announcement...</p>
+        <div class="notice-board">
+            <p id="notice">Connecting to server...</p>
+        </div>
     </header>
 
-    <section id="tournament-info">
+    <main>
         <div class="card">
-            <h3>Total Prize: <span id="total-prize">Loading...</span></h3>
-            <p>Entry Fee: <span id="entry-fee">Loading...</span></p>
+            <h2>Tournament Details</h2>
+            <p>Total Prize: <span id="total-prize">0</span></p>
+            <p>Entry Fee: <span id="entry-fee">0</span></p>
+            <hr>
+            <p>1st Prize: <span id="p1">0</span></p>
+            <p>2nd Prize: <span id="p2">0</span></p>
+            <p>3rd Prize: <span id="p3">0</span></p>
         </div>
-    </section>
 
-    <div id="admin-section" style="display:none;">
+        <div class="card">
+            <h2>Registration</h2>
+            <button onclick="alert('Registration form coming soon!')">Register Now</button>
         </div>
+    </main>
 
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-webapp.js"></script>
-    </body>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAae7Vx8aONupJBC6_Lg9oqLnuXSA-KUoQ",
+            authDomain: "eliteffbd.firebaseapp.com",
+            projectId: "eliteffbd",
+            storageBucket: "eliteffbd.firebasestorage.app",
+            messagingSenderId: "891855320405",
+            appId: "1:891855320405:web:c7191ce7a6eb59f5e76bdc"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const tournamentDoc = doc(db, "tournament", "settings");
+
+        onSnapshot(tournamentDoc, (doc) => {
+            if (doc.exists()) {
+                const data = doc.data();
+                document.getElementById('notice').innerText = data.notice || "No Notice";
+                document.getElementById('total-prize').innerText = data.totalPrize || "0";
+                document.getElementById('entry-fee').innerText = data.entryFee || "0";
+                document.getElementById('p1').innerText = data.p1 || "0";
+                document.getElementById('p2').innerText = data.p2 || "0";
+                document.getElementById('p3').innerText = data.p3 || "0";
+            } else {
+                document.getElementById('notice').innerText = "Create a document in Firestore: tournament/settings";
+            }
+        });
+    </script>
+</body>
 </html>
